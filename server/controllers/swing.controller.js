@@ -1,5 +1,6 @@
 const { Game } = require('../models/game.model');
 const { User } = require('../models/game.model');
+const { Message } = require('../models/game.model');
 
 module.exports = {
     userIndex:(req,res) => {
@@ -28,19 +29,18 @@ module.exports = {
             .catch(err => res.json(err.errors))
     },
     gameCreate:(req,res) => {    
+        console.log(req.body)
         Game.create(req.body)
         .then(data => res.json({results:data}))
-        .catch(err => res.json(err.errors))
+        .catch(err => console.log(err))
     },
-    // gameCreate:(req,res) => {    
-    //     let player1 = User.findOne({name: name1})
-    //     let player2 = User.findOne({name: name2})
-    //     Game.create(req.body, player1, player2})
-    //     .then(data => res.json({results:data}))
-    //     .catch(err => res.json(err.errors))
-    // },
-    update:(req,res) => {
+    gameUpdate:(req,res) => {
         Game.findOneAndUpdate({_id: req.params.id}, req.body, {useFindAndModify:true, runValidators:true})  
+            .then(data => res.json({results:data}))
+            .catch(err => res.json(err.errors))
+    },
+    userUpdate:(req,res) => {
+        User.findOneAndUpdate({_id: req.params.id}, req.body, {useFindAndModify:true, runValidators:true})  
             .then(data => res.json({results:data}))
             .catch(err => res.json(err.errors))
     },
@@ -60,5 +60,19 @@ module.exports = {
                 Game.findOneAndUpdate({_id: req.params.gameId}, {[req.params.player] :{user:data}})
                     .then(data => res.json({results:data}))
             })
+    },
+    groupMessage:(req, res) => {
+        Message.create(req.body)
+            .then(newMessage => {
+                Game.findByIdAndUpdate({_id: req.params.id}, {$push:{messages:newMessage}})
+            })
+            .catch(err => res.json(err))
+    },
+    directMessage:(req, res) => {
+        Message.create(req.body)
+            .then(newMessage => {
+                User.findByIdAndUpdate({_id: req.params.id}, {$push:{messages:newMessage}})
+            })
+            .catch(err => res.json(err))
     }
 }
