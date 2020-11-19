@@ -27,8 +27,8 @@ const Games = props => {
             {
                 games.map((game,i) => {
                     return <p key={i}>
-                        <Link to={`/game/${game._id}`}>Testing</Link>
-                        {game.name} {game.location}</p>
+                        <Link to={`/game/${game._id}`}>{game.name}</Link><br></br>
+                        Location: {game.location}</p>
                 })
             }
         </div>

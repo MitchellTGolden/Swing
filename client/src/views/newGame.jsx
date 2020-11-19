@@ -27,7 +27,7 @@ const NewGame = props => {
             .then(res => {
                 console.log(res.data.results);
                 if (res.data.results) {
-                    navigate('/dashboard');
+                    navigate('/games');
                 } else {
                     setErrors(res.data);
                 }

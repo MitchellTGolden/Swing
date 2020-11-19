@@ -9,14 +9,15 @@ import AddPlayers from './views/AddPlayers';
 import User from './views/User';
 import Players from './views/Players';
 import EditUser from './views/EditUser';
+import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+
 
 
 function App() {
   return (
   <div className="App">
-  
       <Router>
-        <LogReg path="/"/>
+        <LogReg path="/" />
         <Main path='/dashboard'/>
         <NewGame path='/newgame'/>
         <Games path='/games'/>
